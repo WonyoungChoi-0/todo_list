@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Button from '@material-ui/core/Button';
+
+
 
 export default function App() {
   //Need state for list of tasks
@@ -13,17 +16,18 @@ export default function App() {
   //Need a function to add a task to the task list
   const handleAdd = () => {
     if(currTitle == "" || currDescription == "" || currDuedate == "") alert("1 or more fields empty");
-
-    setItems(
-      [...items, {
-        title : currTitle,
-        description : currDescription,
-        duedate : currDuedate,
-      }]
-    )
-    setTitle("");
-    setDescription("");
-    setDuedate("");
+    else{
+      setItems(
+        [...items, {
+          title : currTitle,
+          description : currDescription,
+          duedate : currDuedate,
+        }]
+      )
+      setTitle("");
+      setDescription("");
+      setDuedate("");
+    }
   };
 
   //This is a component that will be reused to represent each individual task.
@@ -51,13 +55,15 @@ export default function App() {
 
     return (
       <div>
-        {checkedOff ? (<div><strike>{item.title}</strike> <br></br> <button onClick={handleCheckOff}>Uncheck</button>
-        <button onClick={handleDelete}>Delete</button></div>) :
-        (<div><h3>{item.title}</h3>
+        {checkedOff ? 
+        (<div style={{border:"solid black 3px", marginTop:"10px"}}><strike>{item.title}</strike> <br></br> 
+        <Button onClick={handleCheckOff} variant="contained" color="primary">Uncheck</Button>
+        <Button onClick={handleDelete} variant="contained" color="secondary">Delete</Button></div>) :
+        (<div style={{border:"solid black 3px", marginTop:"10px"}}><h3>{item.title}</h3>
         <h4>{item.description}</h4>
         <h4>{item.duedate}</h4> 
-        <button onClick={handleCheckOff}>Check Off</button>
-        <button onClick={handleDelete}>Delete</button></div>)
+        <Button onClick={handleCheckOff} variant="contained" color="primary" style={{marginRight:"3px"}}>Check Off</Button>
+        <Button onClick={handleDelete} variant="contained" color="secondary">Delete</Button></div>)
         }
       </div>
     );
@@ -80,8 +86,9 @@ export default function App() {
         Due Date
         <input type="text" value={currDuedate} onChange={(e) => setDuedate(e.target.value)}/>
       </label>
-      <button onClick={handleAdd}>Add Todo Item</button>
-
+      <br></br>
+      <Button onClick={handleAdd} variant="contained" color="primary">Add Todo Item</Button>
+    
       {
         items.map(x => <TodoItem item={x}></TodoItem>)
       }
